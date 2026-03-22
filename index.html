@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Alfred</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f5f5f5;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px;
+    }
+    h1 {
+      color: #333;
+      margin-bottom: 30px;
+    }
+    .carte {
+      background: white;
+      border-radius: 12px;
+      padding: 24px;
+      width: 400px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      margin-bottom: 16px;
+    }
+    .titre {
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
+    .detail {
+      color: #666;
+      margin-bottom: 16px;
+    }
+    .boutons {
+      display: flex;
+      gap: 10px;
+    }
+    button {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    .accepter {
+      background-color: #4CAF50;
+      color: white;
+    }
+    .rejeter {
+      background-color: #f44336;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <h1>Alfred 🤵</h1>
+  <div class="carte">
+    <div class="titre">Réunion avec Thomas</div>
+    <div class="detail">Demain à 14h — Détecté depuis un email de thomas@exemple.com</div>
+    <div class="boutons">
+      <button class="accepter">✅ Accepter</button>
+      <button class="rejeter">❌ Rejeter</button>
+    </div>
+  </div>
+  <div class="carte">
+    <div class="titre">Call avec Marie</div>
+    <div class="detail">Vendredi à 10h — Détecté depuis un email de marie@exemple.com</div>
+    <div class="boutons">
+      <button class="accepter">✅ Accepter</button>
+      <button class="rejeter">❌ Rejeter</button>
+    </div>
+  </div>
+  <script>
+  document.querySelectorAll('.accepter').forEach(bouton => {
+    bouton.addEventListener('click', function() {
+      this.closest('.carte').remove()
+    })
+  })
+
+  document.querySelectorAll('.rejeter').forEach(bouton => {
+    bouton.addEventListener('click', function() {
+      this.closest('.carte').remove()
+    })
+  })
+</script>
+</body>
+</html>
