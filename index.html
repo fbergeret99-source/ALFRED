@@ -73,18 +73,61 @@
       <button class="rejeter">❌ Rejeter</button>
     </div>
   </div>
-  <script>
+ <script>
   document.querySelectorAll('.accepter').forEach(bouton => {
     bouton.addEventListener('click', function() {
-      this.closest('.carte').remove()
+      const carte = this.closest('.carte')
+      carte.style.backgroundColor = '#e8f5e9'
+      carte.style.borderLeft = '4px solid #4CAF50'
+      carte.querySelector('.boutons').innerHTML = '✅ Ajouté au calendrier'
     })
   })
 
   document.querySelectorAll('.rejeter').forEach(bouton => {
     bouton.addEventListener('click', function() {
-      this.closest('.carte').remove()
+      const carte = this.closest('.carte')
+      carte.style.opacity = '0.4'
+      carte.querySelector('.boutons').innerHTML = '<span style="color:#999">Rejeté — <a href="#" class="annuler">Annuler</a></span>'
+      
+      const timer = setTimeout(() => {
+        carte.remove()
+      }, 3000)
+
+      carte.querySelector('.annuler').addEventListener('click', function(e) {
+        e.preventDefault()
+        clearTimeout(timer)
+        carte.style.opacity = '1'
+        carte.querySelector('.boutons').innerHTML = `
+          <button class="accepter">✅ Accepter</button>
+          <button class="rejeter">❌ Rejeter</button>
+        `
+        rebindBoutons(carte)
+      })
     })
   })
+
+  function rebindBoutons(carte) {
+    carte.querySelector('.accepter').addEventListener('click', function() {
+      carte.style.backgroundColor = '#e8f5e9'
+      carte.style.borderLeft = '4px solid #4CAF50'
+      carte.querySelector('.boutons').innerHTML = '✅ Ajouté au calendrier'
+    })
+    carte.querySelector('.rejeter').addEventListener('click', function() {
+      carte.style.opacity = '0.4'
+      carte.querySelector('.boutons').innerHTML = '<span style="color:#999">Rejeté — <a href="#" class="annuler">Annuler</a></span>'
+      const timer = setTimeout(() => carte.remove(), 3000)
+      carte.querySelector('.annuler').addEventListener('click', function(e) {
+        e.preventDefault()
+        clearTimeout(timer)
+        carte.style.opacity = '1'
+        carte.querySelector('.boutons').innerHTML = `
+          <button class="accepter">✅ Accepter</button>
+          <button class="rejeter">❌ Rejeter</button>
+        `
+        rebindBoutons(carte)
+      })
+    })
+  }
 </script>
 </body>
 </html>
