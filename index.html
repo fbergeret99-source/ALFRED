@@ -57,6 +57,11 @@
 </head>
 <body>
   <h1>Alfred 🤵</h1>
+  <button onclick="chargerEmails()" 
+  style="margin-bottom:24px; padding:12px 24px; background:#4285f4; 
+  color:white; border:none; border-radius:8px; font-size:14px; cursor:pointer;">
+  📬 Analyser mes emails
+</button>
   <div style="width:400px; margin-bottom: 24px;">
   <textarea id="email-input" placeholder="Collez un email ici..." 
     style="width:100%; height:120px; padding:12px; border-radius:8px; 
@@ -69,21 +74,6 @@
 </div>
 
 <div id="suggestions"></div>
-  <div class="carte">
-    <div class="titre">Réunion avec Thomas</div>
-    <div class="detail">Demain à 14h — Détecté depuis un email de thomas@exemple.com</div>
-    <div class="boutons">
-      <button class="accepter">✅ Accepter</button>
-      <button class="rejeter">❌ Rejeter</button>
-    </div>
-  </div>
-  <div class="carte">
-    <div class="titre">Call avec Marie</div>
-    <div class="detail">Vendredi à 10h — Détecté depuis un email de marie@exemple.com</div>
-    <div class="boutons">
-      <button class="accepter">✅ Accepter</button>
-      <button class="rejeter">❌ Rejeter</button>
-    </div>
   </div>
 <script>
 async function analyserEmail() {
@@ -142,6 +132,23 @@ function bindBoutons(carte) {
       bindBoutons(carte)
     })
   })
+}
+async function chargerEmails() {
+  const response = await fetch('/emails')
+  const emails = await response.json()
+  
+  for (const email of emails) {
+    const texte = email.sujet + ' ' + email.corps
+    const resultat = await fetch('/analyser', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: texte })
+    })
+    const suggestion = await resultat.json()
+    if (suggestion.reunion) {
+      ajouterCarte(suggestion)
+    }
+  }
 }
 </script>
 </body>
